@@ -1,34 +1,45 @@
 {
-  "name": "expense-tracker-frontend",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint"
   },
   "dependencies": {
-    "next": "^15.2.0",
-    "autoprefixer": "^10.4.0",
-    "lucide-react": "^0.292.0",
-    "clsx": "^2.0.0",
-    "framer-motion": "^10.16.0",
-    "postcss": "^8.4.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "recharts": "^2.10.0",
-    "tailwindcss": "^3.4.0",
-    "zustand": "^4.4.0"
+    "@hookform/resolvers": "^5.2.2",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-toast": "^1.2.15",
+    "autoprefixer": "^10.4.27",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^1.7.0",
+    "next": "16.2.1",
+    "next-themes": "^0.4.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.72.0",
+    "recharts": "^3.8.1",
+    "tailwind-merge": "^3.5.0",
+    "zod": "^4.3.6",
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
-    "@types/node": "^20.19.37",
-    "@types/react": "^18.3.28",
-    "@types/react-dom": "^18.3.7",
-    "@typescript-eslint/eslint-plugin": "^8.57.2",
-    "@typescript-eslint/parser": "^8.57.2",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "^15.2.0",
-    "typescript": "^5.9.3"
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "babel-plugin-react-compiler": "1.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
