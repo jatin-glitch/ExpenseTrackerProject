@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-border: #e2e8f0;
+  --text: #0f172a;
+  --muted: #64748b;
+  --primary: #4f46e5;
+  --primary-solid: #4338ca;
+  --radius: 1rem;
+  --shadow-soft: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #020617;
+    --surface: #0f172a;
+    --surface-border: #1e293b;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --primary: #818cf8;
+    --primary-solid: #6366f1;
+    --shadow-soft: 0 10px 24px rgba(0, 0, 0, 0.40);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #__next { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.card { background: var(--surface); border: 1px solid var(--surface-border); border-radius: var(--radius); box-shadow: var(--shadow-soft); }
+
+.button-primary { background: var(--primary); color: white; }
+
+.transition-default { transition: all .2s ease; }
