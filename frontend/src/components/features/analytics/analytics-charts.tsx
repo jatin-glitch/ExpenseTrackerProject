@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useCallback } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -44,6 +44,8 @@ export function AnalyticsCharts() {
   const [dateRange, setDateRange] = useState<DateRange>('30d')
 
   const filteredExpenses = useMemo(() => {
+    if (dateRange === 'all') return expenses
+    
     const now = new Date()
     const filterDate = new Date()
 
@@ -60,8 +62,6 @@ export function AnalyticsCharts() {
       case '1y':
         filterDate.setFullYear(now.getFullYear() - 1)
         break
-      case 'all':
-        return expenses
       default:
         return expenses
     }
@@ -152,7 +152,7 @@ export function AnalyticsCharts() {
       y: 0,
       transition: {
         duration: 0.5,
-        ease: "easeOut",
+        ease: [0.4, 0, 0.2, 1] as const,
       },
     },
   }
@@ -236,7 +236,7 @@ export function AnalyticsCharts() {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={({ percentage }) => `${percentage.toFixed(0)}%`}
+                    label={(entry) => `${((entry.percent || 0) * 100).toFixed(0)}%`}
                     outerRadius={80}
                     fill="#8884d8"
                     dataKey="amount"

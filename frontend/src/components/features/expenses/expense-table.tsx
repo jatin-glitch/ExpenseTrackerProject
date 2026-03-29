@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useCallback, memo } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -26,6 +26,81 @@ import {
 
 type SortField = 'date' | 'category' | 'amount' | 'description'
 type SortDirection = 'asc' | 'desc'
+
+const ExpenseRow = memo(({ expense, index, allCategories, deleteExpense }: { 
+  expense: any, 
+  index: number, 
+  allCategories: any[], 
+  deleteExpense: (id: string) => void 
+}) => {
+  const getCategoryIcon = useCallback((categoryName: string) => {
+    const category = allCategories.find(c => c.name === categoryName)
+    return category?.icon || '📦'
+  }, [allCategories])
+
+  const getCategoryColor = useCallback((categoryName: string) => {
+    const category = allCategories.find(c => c.name === categoryName)
+    return category?.color || '#6b7280'
+  }, [allCategories])
+
+  return (
+    <motion.tr
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2, delay: Math.min(index * 0.02, 0.1) }}
+      className="border-b hover:bg-muted/50 transition-colors"
+    >
+      <td className="p-4 align-middle">
+        <div className="text-sm">
+          {formatDate(expense.date)}
+        </div>
+      </td>
+      <td className="p-4 align-middle">
+        <div className="flex items-center space-x-2">
+          <div 
+            className="w-8 h-8 rounded-full flex items-center justify-center text-xs"
+            style={{ backgroundColor: `${getCategoryColor(expense.category)}20` }}
+          >
+            {getCategoryIcon(expense.category)}
+          </div>
+          <span className="text-sm font-medium">{expense.category}</span>
+        </div>
+      </td>
+      <td className="p-4 align-middle">
+        <div className="text-sm">{expense.description}</div>
+      </td>
+      <td className="p-4 align-middle">
+        <div className="text-sm font-semibold text-red-600">
+          -{formatCurrency(expense.amount)}
+        </div>
+      </td>
+      <td className="p-4 align-middle">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>
+              <Edit className="h-4 w-4 mr-2" />
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem 
+              className="text-destructive"
+              onClick={() => deleteExpense(expense.id)}
+            >
+              <Trash2 className="h-4 w-4 mr-2" />
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </td>
+    </motion.tr>
+  )
+})
+
+ExpenseRow.displayName = 'ExpenseRow'
 
 export function ExpenseTable() {
   const expenses = useExpenseStore((state) => state.expenses)
@@ -79,15 +154,15 @@ export function ExpenseTable() {
     }
   }
 
-  const getCategoryIcon = (categoryName: string) => {
+  const getCategoryIcon = useCallback((categoryName: string) => {
     const category = allCategories.find(c => c.name === categoryName)
     return category?.icon || '📦'
-  }
+  }, [allCategories])
 
-  const getCategoryColor = (categoryName: string) => {
+  const getCategoryColor = useCallback((categoryName: string) => {
     const category = allCategories.find(c => c.name === categoryName)
     return category?.color || '#6b7280'
-  }
+  }, [allCategories])
 
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) return <ArrowUpDown className="h-4 w-4" />
@@ -186,60 +261,13 @@ export function ExpenseTable() {
                   </tr>
                 ) : (
                   filteredAndSortedExpenses.map((expense, index) => (
-                    <motion.tr
+                    <ExpenseRow 
                       key={expense.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.05 }}
-                      className="border-b hover:bg-muted/50 transition-colors"
-                    >
-                      <td className="p-4 align-middle">
-                        <div className="text-sm">
-                          {formatDate(expense.date)}
-                        </div>
-                      </td>
-                      <td className="p-4 align-middle">
-                        <div className="flex items-center space-x-2">
-                          <div 
-                            className="w-8 h-8 rounded-full flex items-center justify-center text-xs"
-                            style={{ backgroundColor: `${getCategoryColor(expense.category)}20` }}
-                          >
-                            {getCategoryIcon(expense.category)}
-                          </div>
-                          <span className="text-sm font-medium">{expense.category}</span>
-                        </div>
-                      </td>
-                      <td className="p-4 align-middle">
-                        <div className="text-sm">{expense.description}</div>
-                      </td>
-                      <td className="p-4 align-middle">
-                        <div className="text-sm font-semibold text-red-600">
-                          -{formatCurrency(expense.amount)}
-                        </div>
-                      </td>
-                      <td className="p-4 align-middle">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
-                              <Edit className="h-4 w-4 mr-2" />
-                              Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem 
-                              className="text-destructive"
-                              onClick={() => deleteExpense(expense.id)}
-                            >
-                              <Trash2 className="h-4 w-4 mr-2" />
-                              Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </td>
-                    </motion.tr>
+                      expense={expense}
+                      index={index}
+                      allCategories={allCategories}
+                      deleteExpense={deleteExpense}
+                    />
                   ))
                 )}
               </tbody>
