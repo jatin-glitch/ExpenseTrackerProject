@@ -159,7 +159,7 @@ export function CommandPalette() {
       scale: 1,
       transition: {
         duration: 0.2,
-        ease: "easeOut",
+        ease: [0.4, 0, 0.2, 1] as const,
       },
     },
     exit: {
@@ -167,7 +167,7 @@ export function CommandPalette() {
       scale: 0.95,
       transition: {
         duration: 0.15,
-        ease: "easeIn",
+        ease: [0.4, 0, 1, 1] as const,
       },
     },
   }
