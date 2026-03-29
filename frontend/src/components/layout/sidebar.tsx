@@ -13,6 +13,7 @@ import {
   X
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useState } from "react"
 
 const navigation = [
@@ -75,6 +76,18 @@ export function Sidebar() {
           )
         })}
       </nav>
+
+      {/* Theme Toggle Section */}
+      <div className="p-2 border-t border-border/50">
+        <div className="flex items-center px-3 py-2">
+          <ThemeToggle />
+          {!isCollapsed && (
+            <span className="ml-3 text-sm font-medium text-muted-foreground">
+              Theme
+            </span>
+          )}
+        </div>
+      </div>
     </div>
   )
 }

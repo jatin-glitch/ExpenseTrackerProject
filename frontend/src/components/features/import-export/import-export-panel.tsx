@@ -127,7 +127,7 @@ export function ImportExportPanel() {
       scale: 1,
       transition: {
         duration: 0.3,
-        ease: "easeOut",
+        ease: [0.4, 0, 0.2, 1] as const,
       },
     },
   }
@@ -139,7 +139,7 @@ export function ImportExportPanel() {
       y: 0,
       transition: {
         duration: 0.3,
-        ease: "easeOut",
+        ease: [0.4, 0, 0.2, 1] as const,
       },
     },
   }

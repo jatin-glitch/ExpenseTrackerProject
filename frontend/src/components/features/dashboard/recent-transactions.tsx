@@ -4,7 +4,6 @@ import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useExpenseStore } from "@/store/expense-store"
 import { formatDate, formatCurrency } from "@/lib/utils"
-import { categories } from "@/store/expense-store"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -23,7 +22,7 @@ const itemVariants = {
     x: 0,
     transition: {
       duration: 0.3,
-      ease: "easeOut",
+      ease: [0.4, 0, 0.2, 1] as const,
     },
   },
 }

@@ -3,6 +3,7 @@
 import { Sidebar } from "./sidebar"
 import { Navbar } from "./navbar"
 import { Toaster } from "@/components/ui/toaster"
+import { FloatingThemeToggle } from "@/components/ui/floating-theme-toggle"
 import { cn } from "@/lib/utils"
 
 interface LayoutProps {
@@ -26,6 +27,7 @@ export function Layout({ children, className }: LayoutProps) {
         </main>
       </div>
       <Toaster />
+      <FloatingThemeToggle />
     </div>
   )
 }

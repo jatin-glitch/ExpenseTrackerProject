@@ -4,7 +4,7 @@ import { motion, Variants } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useExpenseStore } from "@/store/expense-store"
 import { formatCurrency } from "@/lib/utils"
-import { TrendingUp, DollarSign, Calendar, Tag } from "lucide-react"
+import { TrendingUp, DollarSign, Calendar, Tag, ArrowUp, ArrowDown } from "lucide-react"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -23,7 +23,7 @@ const itemVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: "easeOut",
+      ease: [0.4, 0, 0.2, 1] as const,
     },
   },
 }
@@ -38,6 +38,8 @@ export function KpiCards() {
       icon: DollarSign,
       color: "text-blue-600",
       bgColor: "bg-blue-50 dark:bg-blue-950",
+      trend: "up",
+      trendValue: "+12%",
     },
     {
       title: "Monthly Spending",
@@ -45,6 +47,8 @@ export function KpiCards() {
       icon: Calendar,
       color: "text-green-600",
       bgColor: "bg-green-50 dark:bg-green-950",
+      trend: "down",
+      trendValue: "-8%",
     },
     {
       title: "Average Daily Spend",
@@ -52,6 +56,8 @@ export function KpiCards() {
       icon: TrendingUp,
       color: "text-purple-600",
       bgColor: "bg-purple-50 dark:bg-purple-950",
+      trend: "up",
+      trendValue: "+5%",
     },
     {
       title: "Top Category",
@@ -59,6 +65,8 @@ export function KpiCards() {
       icon: Tag,
       color: "text-orange-600",
       bgColor: "bg-orange-50 dark:bg-orange-950",
+      trend: "neutral",
+      trendValue: "Food",
     },
   ]
 
@@ -71,17 +79,29 @@ export function KpiCards() {
     >
       {kpiData.map((kpi, index) => (
         <motion.div key={kpi.title} variants={itemVariants}>
-          <Card className="hover:shadow-lg transition-shadow duration-300">
+          <Card className="hover:shadow-lg transition-all duration-300 hover:scale-105 border-0 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 {kpi.title}
               </CardTitle>
-              <div className={`p-2 rounded-lg ${kpi.bgColor}`}>
+              <div className={`p-2 rounded-lg ${kpi.bgColor} transition-transform duration-200 hover:scale-110`}>
                 <kpi.icon className={`h-4 w-4 ${kpi.color}`} />
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{kpi.value}</div>
+              <div className="text-2xl font-bold mb-2">{kpi.value}</div>
+              <div className="flex items-center space-x-2">
+                {kpi.trend === 'up' && <ArrowUp className="h-3 w-3 text-green-500" />}
+                {kpi.trend === 'down' && <ArrowDown className="h-3 w-3 text-red-500" />}
+                <span className={`text-xs font-medium ${
+                  kpi.trend === 'up' ? 'text-green-500' : 
+                  kpi.trend === 'down' ? 'text-red-500' : 
+                  'text-gray-500'
+                }`}>
+                  {kpi.trendValue}
+                </span>
+                <span className="text-xs text-muted-foreground">vs last month</span>
+              </div>
             </CardContent>
           </Card>
         </motion.div>
